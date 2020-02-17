@@ -14,24 +14,24 @@ def test_failure_on_no_arguments(parser):
     The cli raises an error if no arguments are given.
     """
     with pytest.raises(SystemError):
-        parser.parse([])
+        parser.parse_args([])
 
 def test_success_if_valid_path_is_included(parser):
     """
     The cli raises no error if a valid path is given as an argument.
     """
-    assert parser.parse([path])
+    assert parser.parse_args([path])
 
 def test_failure_if_invalid_path_is_included(parser):
     """
     The cli raises an error if an invalid path is given as an argument.
     """
     with pytest.raises(SystemError):
-        parser.parse(["/some/wrong/path.json"])
+        parser.parse_args(["/some/wrong/path.json"])
 
 def test_export_true_if_flag_set(parser):
     """
     The cli correctly sets the export flag if the export flag is set.
     """
-    args = parser.parse(["--export", path])
+    args = parser.parse_args(["--export", path])
     assert args.export
