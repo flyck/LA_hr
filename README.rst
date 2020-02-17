@@ -1,5 +1,5 @@
-pgbackup
-========
+hr
+==
 
 CLI for hr purposes.
 
