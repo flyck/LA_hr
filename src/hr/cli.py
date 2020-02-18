@@ -1,5 +1,6 @@
 from argparse import ArgumentParser, FileType
 import sys
+from hr import users
 
 def create_parser():
     parser = ArgumentParser("hr",
@@ -17,4 +18,4 @@ def create_parser():
 
 def main():
     parser = create_parser()
-    parser.parse_args()
+    args = parser.parse_args()

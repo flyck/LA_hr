@@ -56,7 +56,9 @@ def test_modification_of_existing_user_update_groups(mocker):
     )
     
     #side_effects: groups, usermode
-    mocker.patch("subprocess.run", side_effect=[f"{user['name']} : {user['groups'][0]}", None])
+    mocker.patch("subprocess.run", side_effect=[
+        type('testclass', (object,), {"stdout": f"{user['name']} : {user['groups'][0]}\n".encode()}), 
+        None])
     mocker.patch("spwd.getspnam", return_value=fake_existing_user)
     
     users.update(user["name"], user["groups"], user["password"])
@@ -76,7 +78,9 @@ def test_modification_of_existing_user_update_password(mocker):
     )
     
     #side_effects: groups, usermode
-    mocker.patch("subprocess.run", side_effect=[f"{user['name']} : {' '.join(user['groups'])}", None])
+    mocker.patch("subprocess.run", side_effect=[
+        type('testclass', (object,), {"stdout": f"{user['name']} : {' '.join(user['groups'])}\n".encode()}), 
+        None])
     mocker.patch("spwd.getspnam", return_value=fake_spwd)
     
     users.update(user["name"], user["groups"], user["password"])
@@ -96,7 +100,9 @@ def test_no_action_if_update_not_needed(mocker):
     )
     
     #side_effects: groups, usermode
-    mocker.patch("subprocess.run", side_effect=[f"{user['name']} : {' '.join(user['groups'])}", Exception])
+    mocker.patch("subprocess.run", side_effect=[
+        type('testclass', (object,), {"stdout": f"{user['name']} : {' '.join(user['groups'])}\n".encode()}), 
+        Exception])
     mocker.patch("spwd.getspnam", return_value=fake_spwd)
     
     exception = None
