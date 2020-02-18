@@ -41,7 +41,7 @@ def test_creation_of_nonexisting_user(mocker):
     
     users.create(user["name"], user["groups"], user["password"])
     subprocess.run.assert_called_with(
-            ["useradd", user["name"], "-g", user["groups"], "-p", user["password"]], 
+            ["useradd", user["name"], "-G", ",".join(user["groups"]), "-p", user["password"]], 
             stdout = subprocess.PIPE
     )
     
@@ -69,7 +69,7 @@ def test_modification_of_existing_user_update_password(mocker):
     """
     If the user exists but the password mismatches, the function should update it.
     """
-    fake_existing_user = spwd.struct_spwd(
+    fake_spwd = spwd.struct_spwd(
         (user["name"], 
         "im_a_mismatching_password", 
         18310, 0, 99999, 7, -1, -1, -1)
@@ -77,7 +77,7 @@ def test_modification_of_existing_user_update_password(mocker):
     
     #side_effects: groups, usermode
     mocker.patch("subprocess.run", side_effect=[f"{user['name']} : {' '.join(user['groups'])}", None])
-    mocker.patch("spwd.getspnam", return_value=fake_existing_user)
+    mocker.patch("spwd.getspnam", return_value=fake_spwd)
     
     users.update(user["name"], user["groups"], user["password"])
     subprocess.run.assert_called_with(
