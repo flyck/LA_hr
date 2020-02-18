@@ -5,6 +5,6 @@ def delete(user):
         return
 
     try:
-        return subprocess.run(["userdel", user], stdout = subprocess.PIPE)
+        subprocess.run(["userdel", user], stdout = subprocess.PIPE)
     except:
         pass
