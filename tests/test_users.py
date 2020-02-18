@@ -84,3 +84,25 @@ def test_modification_of_existing_user_update_password(mocker):
             ["usermod", user["name"], "-p", user["password"]], 
             stdout = subprocess.PIPE
     )
+
+def test_no_action_if_update_not_needed(mocker):
+    """
+    If the user matches perfectly the function shouldn't do anything.
+    """
+    fake_spwd = spwd.struct_spwd(
+        (user["name"], 
+        user["password"], 
+        18310, 0, 99999, 7, -1, -1, -1)
+    )
+    
+    #side_effects: groups, usermode
+    mocker.patch("subprocess.run", side_effect=[f"{user['name']} : {' '.join(user['groups'])}", Exception])
+    mocker.patch("spwd.getspnam", return_value=fake_spwd)
+    
+    exception = None
+    try:
+        users.update(user["name"], user["groups"], user["password"])
+    except Exception as e:
+        exception = e
+
+    assert exception == None

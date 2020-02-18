@@ -35,5 +35,6 @@ def update(user, groups, password):
         print(f"Password needs an update! {spwd_info.sp_pwdp}")
         usermod_params += ["-p", password]
 
-    subprocess.run(["usermod", user] + usermod_params, stdout = subprocess.PIPE)
+    if usermod_params:
+        subprocess.run(["usermod", user] + usermod_params, stdout = subprocess.PIPE)
     
