@@ -22,6 +22,6 @@ def main():
     if args.export:
         inventory.export(args.path)
         return
-    
-    my_inventory = inventory.read(args.path)
-    users.sync(my_inventory)
+    else:
+        my_inventory = inventory.read(args.path)
+        users.sync(my_inventory)

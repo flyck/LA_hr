@@ -1,15 +1,18 @@
 import json
-
+import sys
 import spwd, pwd, grp
 
 def read(path):
     """
     Read the inventory from a given json file.
     """
-    with open(path) as f:
-        inventory = json.load(f)
-
-    return inventory
+    try:
+        with open(path) as f:
+            inventory = json.load(f)
+        return inventory
+    except Exception:
+        print("Couldn't read from file. Aborting.")
+        sys.exit(1)
 
 def export(mypath):
     """
@@ -29,13 +32,14 @@ def export(mypath):
             password = ""
 
 
-        my_inventory.append({
+        my_inventory += [{
             "name": user,
             "groups": groups,
             "password": password
-        })
+        }]
 
     with open(mypath, 'w') as outfile:
         json.dump(my_inventory, outfile, indent=4)
+
     print(f"Inventory exported to {mypath}")
         
