@@ -1,2 +1,2 @@
 include README.rst
-include-recursive tests *.py
+recursive-include tests *.py
