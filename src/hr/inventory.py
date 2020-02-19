@@ -28,6 +28,7 @@ def export(path):
         except Exception:
             password = ""
 
+
         my_inventory.append({
             "name": user,
             "groups": groups,

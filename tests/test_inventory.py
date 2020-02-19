@@ -28,28 +28,13 @@ def test_inventory_export(mocker):
     """
     The export function generates the expected output for a given user.
     """
-    fake_spwd = spwd.struct_spwd(
-        (user["name"], 
-        user["password"], 
-        18310, 0, 99999, 7, -1, -1, -1)
-    )
-    fake_pwds = [
-        pwd.struct_passwd(
-                (user["name"], 'x', 1000, 1000, '', f'/home/{user["name"]}', '/bin/sh')
-        )
-    ] 
-    fake_grps = [
-        grp.struct_group(
-            ('users', 'x', 100, [user["name"]])
-        ),
-        grp.struct_group(
-           ('wheel', 'x', 100, [user["name"]])
-        )
-    ]
-    
-    mocker.patch("spwd.getspnam", return_value=fake_spwd)
-    mocker.patch("pwd.getpwall", return_value=fake_pwds)
-    mocker.patch("grp.getgrall", return_value=fake_grps)
+    mocker.patch("spwd.getspnam", return_value=mocker.Mock(sp_pwdp=user["password"]))
+    mocker.patch("pwd.getpwall", return_value=[
+        mocker.Mock(pw_name=user["name"], pw_uid=1000)
+    ])
+    mocker.patch("grp.getgrall", return_value=[
+        mocker.Mock(gr_name=group, gr_mem=user["name"]) for group in user["groups"]
+    ])
     mocker.patch("json.dumps")
 
     inventory.export(inventory_file)
