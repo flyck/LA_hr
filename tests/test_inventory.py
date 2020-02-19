@@ -20,8 +20,7 @@ def test_inventory_read(mocker):
     """
     mocker.patch("json.load")
 
-    my_inventory = inventory.read(inventory_file)
-
+    assert inventory.read(inventory_file)
     json.load.assert_called()
 
 def test_inventory_export(mocker):

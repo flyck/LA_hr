@@ -11,7 +11,7 @@ def read(path):
 
     return inventory
 
-def export(path):
+def export(mypath):
     """
     Write the existing users to a json file.
     """
@@ -35,5 +35,7 @@ def export(path):
             "password": password
         })
 
-    json.dumps(my_inventory, path, indent=4)
+    with open(mypath, 'w') as outfile:
+        json.dump(my_inventory, outfile, indent=4)
+    print(f"Inventory exported to {mypath}")
         
