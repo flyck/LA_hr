@@ -14,16 +14,17 @@ user = {
 }
 
 
-def test_inventory_read():
+def test_inventory_read(mocker):
     """
-    The json dump of the read inventory should again match the input file.
+    The inventory is read as a json.
     """
+    mocker.patch("json.load")
+
     my_inventory = inventory.read(inventory_file)
 
-    with open(inventory_file) as f:
-        assert json.dumps(my_inventory, indent=4) == f.readlines()
+    json.load.assert_called()
 
-def inventory_test_export(mocker):
+def test_inventory_export(mocker):
     """
     The export function generates the expected output for a given user.
     """
@@ -52,4 +53,8 @@ def inventory_test_export(mocker):
     mocker.patch("json.dumps")
 
     inventory.export(inventory_file)
+
+    # groups is a list, so before we can compare it we need to sort it
+    user["groups"].sort()
+
     json.dumps.assert_called_with([user], inventory_file, indent=4)
