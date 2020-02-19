@@ -49,19 +49,14 @@ def test_modification_of_existing_user_update_groups(mocker):
     """
     If the user exists but the groups mismatch, the function should update those groups.
     """
-    fake_existing_user = spwd.struct_spwd(
-        (user["name"], 
-        user["password"], 
-        18310, 0, 99999, 7, -1, -1, -1)
-    )
-    
-    #side_effects: groups, usermode
-    mocker.patch("subprocess.run", side_effect=[
-        type('testclass', (object,), {"stdout": f"{user['name']} : {user['groups'][0]}\n".encode()}), 
-        None])
-    mocker.patch("spwd.getspnam", return_value=fake_existing_user)
+    mocker.patch("spwd.getspnam", return_value=mocker.Mock(sp_pwdp=user["password"]))
+    mocker.patch("grp.getgrall", return_value=[
+        mocker.Mock(gr_name=group, gr_mem=[]) for group in user["groups"]
+    ])
+    mocker.patch("subprocess.run")
     
     users.update(user["name"], user["groups"], user["password"])
+
     subprocess.run.assert_called_with(
             ["usermod", user["name"], "-G", ",".join(user["groups"])], 
             stdout = subprocess.PIPE
@@ -71,19 +66,14 @@ def test_modification_of_existing_user_update_password(mocker):
     """
     If the user exists but the password mismatches, the function should update it.
     """
-    fake_spwd = spwd.struct_spwd(
-        (user["name"], 
-        "im_a_mismatching_password", 
-        18310, 0, 99999, 7, -1, -1, -1)
-    )
-    
-    #side_effects: groups, usermode
-    mocker.patch("subprocess.run", side_effect=[
-        type('testclass', (object,), {"stdout": f"{user['name']} : {' '.join(user['groups'])}\n".encode()}), 
-        None])
-    mocker.patch("spwd.getspnam", return_value=fake_spwd)
+    mocker.patch("spwd.getspnam", return_value=mocker.Mock(sp_pwdp="some_wrong_password"))
+    mocker.patch("grp.getgrall", return_value=[
+        mocker.Mock(gr_name=group, gr_mem=user["name"]) for group in user["groups"]
+    ])
+    mocker.patch("subprocess.run")
     
     users.update(user["name"], user["groups"], user["password"])
+
     subprocess.run.assert_called_with(
             ["usermod", user["name"], "-p", user["password"]], 
             stdout = subprocess.PIPE
@@ -93,17 +83,11 @@ def test_no_action_if_update_not_needed(mocker):
     """
     If the user matches perfectly the function shouldn't do anything.
     """
-    fake_spwd = spwd.struct_spwd(
-        (user["name"], 
-        user["password"], 
-        18310, 0, 99999, 7, -1, -1, -1)
-    )
-    
-    #side_effects: groups, usermode
-    mocker.patch("subprocess.run", side_effect=[
-        type('testclass', (object,), {"stdout": f"{user['name']} : {' '.join(user['groups'])}\n".encode()}), 
-        Exception])
-    mocker.patch("spwd.getspnam", return_value=fake_spwd)
+    mocker.patch("spwd.getspnam", return_value=mocker.Mock(sp_pwdp=user["password"]))
+    mocker.patch("grp.getgrall", return_value=[
+        mocker.Mock(gr_name=group, gr_mem=user["name"]) for group in user["groups"]
+    ])
+    mocker.patch("subprocess.run", side_effect=Exception)
     
     exception = None
     try:

@@ -1,5 +1,5 @@
 import subprocess
-import pwd, spwd
+import pwd, spwd, grp
 from copy import deepcopy
 
 def delete(user):
@@ -49,8 +49,7 @@ def update(user, groups, password):
     """
     usermod_params = []
     
-    proc = subprocess.run(["groups", user], stdout = subprocess.PIPE)
-    existing_groups = proc.stdout.decode("utf-8").replace("\n", "").split(" ")[2:]
+    existing_groups = [x.gr_name for x in grp.getgrall() if user in x.gr_mem]
     existing_groups.sort()
     groups.sort()
     if existing_groups != groups:
