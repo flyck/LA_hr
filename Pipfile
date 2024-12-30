@@ -4,11 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pytest = "*"
 pytest-mock = "*"
 flake8 = "*"
+pytest = "*"
 
 [packages]
 
 [requires]
-python_version = "3.6"
+python_version = "3.12"
