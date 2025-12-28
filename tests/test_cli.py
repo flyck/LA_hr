@@ -1,9 +1,8 @@
 import pytest
 
-path="tests/testfile.json"
-
 from hr import cli
 
+TESTFILE_PATH="tests/testfile.json"
 
 @pytest.fixture
 def parser():
@@ -20,5 +19,5 @@ def test_export_true_if_flag_set(parser):
     """
     The cli correctly sets the export flag if the export flag is set.
     """
-    args = parser.parse_args(["--export", path])
+    args = parser.parse_args(["--export", TESTFILE_PATH])
     assert args.export

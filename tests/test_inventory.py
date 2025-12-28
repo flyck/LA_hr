@@ -1,7 +1,6 @@
 import pytest
 import json
 import tempfile
-import pwd, spwd, grp
 
 from hr import inventory
 

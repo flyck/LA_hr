@@ -1,5 +1,7 @@
 import subprocess
-import pwd, spwd, grp
+import pwd
+import spwd
+import grp
 from copy import deepcopy
 
 def delete(user):

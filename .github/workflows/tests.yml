@@ -1,4 +1,4 @@
-name: Tests
+name: Tests & Linting
 
 on:
   pull_request:
@@ -29,3 +29,6 @@ jobs:
 
       - name: Run tests
         run: uv run pytest
+
+      - name: Run linting
+        run: uv run ruff check
