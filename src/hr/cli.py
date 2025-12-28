@@ -1,5 +1,4 @@
-from argparse import ArgumentParser, FileType
-import sys
+from argparse import ArgumentParser
 from hr import users, inventory
 
 def create_parser():

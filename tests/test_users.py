@@ -1,7 +1,4 @@
-import pytest
 import subprocess
-import pwd, spwd
-import grp
 
 from hr import users
 
@@ -22,7 +19,7 @@ def test_deletion_of_nonexistend_user(mocker):
     except Exception as err:
         exception = err
 
-    assert exception == None
+    assert exception is None
 
 def test_deletion_of_existing_user(mocker):
     """
@@ -95,4 +92,4 @@ def test_no_action_if_update_not_needed(mocker):
     except Exception as e:
         exception = e
 
-    assert exception == None
+    assert exception is None

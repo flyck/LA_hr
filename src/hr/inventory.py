@@ -1,6 +1,8 @@
 import json
 import sys
-import spwd, pwd, grp
+import spwd
+import pwd
+import grp
 
 def read(path):
     """
