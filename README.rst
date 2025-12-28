@@ -15,9 +15,7 @@ Getting Started
 Usage
 -----
 
-```
-uv run hr <path-to-json>
-```
+``uv run hr <path-to-json>``
 
 Running Tests
 -------------
