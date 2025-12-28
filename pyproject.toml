@@ -1,0 +1,23 @@
+[project]
+name = "LA_hr"
+version = "0.1.0"
+description = "Basic local user management as a means to learn TDD"
+readme = "README.md"
+requires-python = "==3.12.0"
+dependencies = []
+
+[project.scripts]
+hr = "hr.cli:main"
+
+[dependency-groups]
+dev = [
+    "flake8>=7.3.0",
+    "pytest>=9.0.2",
+    "pytest-mock>=3.15.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.uv]
+package = true

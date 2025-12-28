@@ -1,33 +1,25 @@
 hr
 ==
 
-CLI for hr purposes.
+CLI for local user management. Training module to get acquainted with TDD.
 
-Preparing for Development
--------------------------
+Getting Started
+---------------
 
-1. Ensure ``pip`` and ``pipenv`` are installed
+1. Ensure ``uv`` is [installed](https://docs.astral.sh/uv/getting-started/installation/)
 2. Clone repository: ``git clone git@github.com:example/pgbackup``
 3. ``cd`` into repository
-4. Fetch development dependencies ``make install``
-5. Activate virtualenv: ``pipenv shell``
+4. Fetch development dependencies ``uv sync``
+5. Create the virtualenv: ``uv venv``
 
 Usage
 -----
 
-PENDING
+```
+uv run hr <path-to-json>
+```
 
 Running Tests
 -------------
 
-Run tests locally using ``make`` if virtualenv is active:
-
-::
-
-    $ make
-
-If virtualenv isn’t active then use:
-
-::
-
-    $ pipenv run make
+Run tests locally using ``uv run pytest``
