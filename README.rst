@@ -1,6 +1,14 @@
 hr
 ==
 
+.. image:: https://img.shields.io/badge/dynamic/toml?url=https://raw.githubusercontent.com/flyck/LA_hr/master/pyproject.toml&query=$.project.requires-python&label=python
+   :target: https://www.python.org/downloads/
+   :alt: Python Version
+
+.. image:: https://github.com/flyck/LA_hr/actions/workflows/tests.yml/badge.svg
+   :target: https://github.com/flyck/LA_hr/actions/workflows/tests.yml
+   :alt: Build Status
+
 CLI for local user management. Training module to get acquainted with TDD.
 
 Getting Started
